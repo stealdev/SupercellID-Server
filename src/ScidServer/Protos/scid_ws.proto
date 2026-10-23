@@ -1,0 +1,76 @@
+syntax = "proto3";
+
+option csharp_namespace = "ScidServer.Proto";
+
+package scid_ws;
+
+message ScidTimestamp {
+  int64 seconds = 1;
+}
+
+enum IdShopItemType {
+  UNKNOWN = 0;
+  SEASON_PASS = 1;
+}
+
+message IdShopItemContentsEntry {
+  string key = 1;
+  int64 value = 2;
+}
+
+message IdShopItemStatusAvailable {}
+
+message IdShopItemStatusClaimInProgress {
+  string claim_token = 1;
+}
+
+message IdShopItemStatus {
+  IdShopItemStatusAvailable available = 1;
+  IdShopItemStatusClaimInProgress claim_in_progress = 5;
+}
+
+message IdShopItem {
+  string id = 1;
+  string product_id = 2;
+  IdShopItemType type = 3;
+  repeated string applications = 4;
+  IdShopItemStatus status = 5;
+  string tier = 6;
+  repeated IdShopItemContentsEntry contents = 7;
+  int32 priority = 8;
+}
+
+message IdShopProduct {
+  string application = 1;
+  map<string, string> title = 2;
+  map<string, string> description = 3;
+  string image_url = 4;
+  string background_image_url = 5;
+  string logo_image_url = 6;
+  int32 priority = 7;
+  repeated string tags = 8;
+  string type = 9;
+}
+
+message NotificationPurchasesReceived {
+  IdShopProduct product = 1;
+  int32 product_quantity = 2;
+  repeated IdShopItem shop_items = 3;
+  string token = 4;
+  int32 template_type = 5;
+  string group_id = 6;
+  string origin = 7;
+}
+
+message NotificationMessage {
+  ScidTimestamp issued_at = 1;
+  ScidTimestamp expiration = 2;
+  ScidTimestamp not_before = 3;
+  NotificationPurchasesReceived purchases_received = 20;
+}
+
+message ServerMessage {
+  int32 version = 1;
+  int32 sequence_number = 2;
+  NotificationMessage notification = 10;
+}
