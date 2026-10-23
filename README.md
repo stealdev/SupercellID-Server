@@ -58,8 +58,7 @@ The listen address is the standard ASP.NET Core `Urls` setting (`--urls http://0
 The client calls Supercell ID over HTTPS on the Supercell ID hosts (`*.id.supercell.com`). To send
 it to the SCID server you need both:
 
-- name resolution that points those hosts at the machine running the SCID server (DNS, hosts file or a
-  patched client), and
+- find libapp.so or ios lib (i don't remeber lib name on ios sorry) and replace all url's with supercell.com or just use hosts file (you know what you do)
 - TLS with a certificate the device trusts. The simplest setup is a TLS-terminating reverse proxy
   (Caddy, nginx) in front of the SCID server. Kestrel can also serve HTTPS itself through the standard
   `Kestrel:Endpoints` configuration.
